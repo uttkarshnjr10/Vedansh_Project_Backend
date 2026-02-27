@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+<body style="margin:0;padding:0;background:#f4f7f6;font-family:Arial,sans-serif;">
+<table width="100%" cellpadding="0" cellspacing="0" style="max-width:600px;margin:0 auto;background:#fff;border-radius:12px;overflow:hidden;margin-top:20px;">
+<tr><td style="background:linear-gradient(135deg,#2d8a4e,#1a6b38);padding:30px;text-align:center;">
+<h1 style="color:#fff;margin:0;font-size:24px;">🌿 VanaAushadhi</h1>
+<p style="color:#d4edda;margin:8px 0 0;">Order Confirmed!</p>
+</td></tr>
+<tr><td style="padding:30px;">
+<p style="font-size:16px;">Hi <strong>{{customerName}}</strong>,</p>
+<p>Your order <strong>#{{orderNumber}}</strong> has been confirmed! Here's what you ordered:</p>
+<table width="100%" cellpadding="8" cellspacing="0" style="border-collapse:collapse;margin:20px 0;">
+<tr style="background:#f0f9f4;"><th style="text-align:left;border-bottom:2px solid #2d8a4e;">Item</th><th style="text-align:center;border-bottom:2px solid #2d8a4e;">Qty</th><th style="text-align:right;border-bottom:2px solid #2d8a4e;">Price</th></tr>
+{{#each items}}<tr><td style="border-bottom:1px solid #eee;">{{this.name}}</td><td style="text-align:center;border-bottom:1px solid #eee;">{{this.quantity}}</td><td style="text-align:right;border-bottom:1px solid #eee;">₹{{this.price}}</td></tr>{{/each}}
+</table>
+<table width="100%" cellpadding="4"><tr><td>Subtotal</td><td style="text-align:right;">₹{{subtotal}}</td></tr>
+<tr><td>Delivery</td><td style="text-align:right;">₹{{deliveryCharge}}</td></tr>
+{{#if discountAmount}}<tr><td style="color:#2d8a4e;">Discount</td><td style="text-align:right;color:#2d8a4e;">-₹{{discountAmount}}</td></tr>{{/if}}
+<tr style="font-weight:bold;font-size:18px;"><td>Total</td><td style="text-align:right;color:#2d8a4e;">₹{{totalAmount}}</td></tr></table>
+<p style="margin-top:20px;">📦 Estimated delivery: <strong>{{estimatedDelivery}}</strong></p>
+</td></tr>
+<tr><td style="background:#f4f7f6;padding:20px;text-align:center;color:#888;font-size:12px;">
+© 2025 VanaAushadhi · Herbal & Organic Marketplace<br><a href="{{unsubscribeUrl}}" style="color:#888;">Unsubscribe</a>
+</td></tr></table></body></html>
