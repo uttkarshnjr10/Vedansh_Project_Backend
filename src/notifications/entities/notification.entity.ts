@@ -7,8 +7,8 @@ import {
     JoinColumn,
     Index,
 } from 'typeorm';
-import { UserEntity } from '../modules/users/entities/user.entity';
-import { NOTIFICATION_TYPE } from '../common/constants';
+import { UserEntity } from '../../modules/users/entities/user.entity';
+import { NOTIFICATION_TYPE } from '../../common/constants';
 
 @Entity('notifications')
 @Index(['userId', 'isRead', 'createdAt'])

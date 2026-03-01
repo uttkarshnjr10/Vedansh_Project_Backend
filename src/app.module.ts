@@ -3,6 +3,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
 import { TerminusModule } from '@nestjs/terminus';
+import { BullModule } from '@nestjs/bull';
+import { ScheduleModule } from '@nestjs/schedule';
 import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
 import { WinstonModule } from 'nest-winston';
 import * as winston from 'winston';
@@ -28,6 +30,10 @@ import { SharedModule } from './shared/shared.module';
 import { CartModule } from './modules/cart/cart.module';
 import { OrdersModule } from './modules/orders/orders.module';
 import { PaymentsModule } from './modules/payments/payments.module';
+import { NotificationsModule } from './notifications/notifications.module';
+import { AnalyticsModule } from './modules/analytics/analytics.module';
+import { JobsModule } from './jobs/jobs.module';
+import { AdminModule } from './modules/admin/admin.module';
 
 @Module({
   imports: [
@@ -48,6 +54,27 @@ import { PaymentsModule } from './modules/payments/payments.module';
         limit: 100,
       },
     ]),
+
+    // Bull queues (Redis-backed)
+    BullModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => ({
+        redis: {
+          host: configService.get<string>('REDIS_HOST', 'localhost'),
+          port: configService.get<number>('REDIS_PORT', 6379),
+        },
+        defaultJobOptions: {
+          attempts: 3,
+          backoff: { type: 'exponential', delay: 2000 },
+          removeOnComplete: 100,
+          removeOnFail: 500,
+        },
+      }),
+    }),
+
+    // Cron scheduler
+    ScheduleModule.forRoot(),
 
     // Health checks
     TerminusModule,
@@ -122,6 +149,10 @@ import { PaymentsModule } from './modules/payments/payments.module';
     CartModule,
     OrdersModule,
     PaymentsModule,
+    NotificationsModule,
+    AnalyticsModule,
+    JobsModule,
+    AdminModule,
   ],
   controllers: [AppController],
   providers: [
