@@ -1,0 +1,339 @@
+@baseUrl = http://localhost:3000/api/v1
+@accessToken = PASTE_YOUR_TOKEN_HERE
+@phone = 9876543210
+
+# ═══════════════════════════════════════
+# AUTH
+# ═══════════════════════════════════════
+
+### Send OTP
+POST {{baseUrl}}/auth/send-otp
+Content-Type: application/json
+
+{
+  "phone": "{{phone}}"
+}
+
+### Verify OTP
+POST {{baseUrl}}/auth/verify-otp
+Content-Type: application/json
+
+{
+  "phone": "{{phone}}",
+  "otp": "123456"
+}
+
+### Refresh Token
+POST {{baseUrl}}/auth/refresh
+
+### Logout
+POST {{baseUrl}}/auth/logout
+Authorization: Bearer {{accessToken}}
+
+### Get My Profile
+GET {{baseUrl}}/users/profile
+Authorization: Bearer {{accessToken}}
+
+
+# ═══════════════════════════════════════
+# CATEGORIES
+# ═══════════════════════════════════════
+
+### Get All Categories
+GET {{baseUrl}}/categories
+
+### Get Category by Slug
+GET {{baseUrl}}/categories/personal-care
+
+
+# ═══════════════════════════════════════
+# PRODUCTS
+# ═══════════════════════════════════════
+
+### List Products (paginated)
+GET {{baseUrl}}/products?page=1&limit=10&sort=popular
+
+### Search Products
+GET {{baseUrl}}/products?search=ashwagandha&page=1&limit=10
+
+### Filter by Category
+GET {{baseUrl}}/products?category=health-supplements&minPrice=100&maxPrice=500
+
+### Get Product Detail
+GET {{baseUrl}}/products/organic-ashwagandha-powder
+
+### Get Reviews
+GET {{baseUrl}}/products/00000000-0000-0000-0000-000000000001/reviews?page=1&limit=10
+
+
+# ═══════════════════════════════════════
+# CART
+# ═══════════════════════════════════════
+
+### View Cart
+GET {{baseUrl}}/cart
+Authorization: Bearer {{accessToken}}
+
+### Add to Cart
+POST {{baseUrl}}/cart/add
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "productId": "00000000-0000-0000-0000-000000000001",
+  "quantity": 2
+}
+
+### Update Cart Item Quantity
+PATCH {{baseUrl}}/cart/items/00000000-0000-0000-0000-000000000001
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "quantity": 3
+}
+
+### Remove Cart Item
+DELETE {{baseUrl}}/cart/items/00000000-0000-0000-0000-000000000001
+Authorization: Bearer {{accessToken}}
+
+### Validate Cart
+POST {{baseUrl}}/cart/validate
+Authorization: Bearer {{accessToken}}
+
+### Apply Coupon
+POST {{baseUrl}}/cart/validate-coupon
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "couponCode": "WELCOME10",
+  "cartTotal": 599
+}
+
+### Get Loyalty Points
+GET {{baseUrl}}/cart/loyalty-points
+Authorization: Bearer {{accessToken}}
+
+### Clear Cart
+DELETE {{baseUrl}}/cart/clear
+Authorization: Bearer {{accessToken}}
+
+
+# ═══════════════════════════════════════
+# ADDRESSES
+# ═══════════════════════════════════════
+
+### List My Addresses
+GET {{baseUrl}}/users/addresses
+Authorization: Bearer {{accessToken}}
+
+### Add Address
+POST {{baseUrl}}/users/addresses
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "fullName": "Rahul Sharma",
+  "phone": "9876543210",
+  "addressLine1": "123, Green Colony",
+  "addressLine2": "Near Temple",
+  "city": "Jaipur",
+  "state": "Rajasthan",
+  "pincode": "302001",
+  "label": "home"
+}
+
+
+# ═══════════════════════════════════════
+# ORDERS
+# ═══════════════════════════════════════
+
+### Create Order (COD)
+POST {{baseUrl}}/orders
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "addressId": "00000000-0000-0000-0000-000000000001",
+  "paymentMethod": "cod",
+  "couponCode": "WELCOME10",
+  "loyaltyPointsToRedeem": 50,
+  "notes": "Please deliver before 6 PM"
+}
+
+### Create Order (Razorpay)
+POST {{baseUrl}}/orders
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "addressId": "00000000-0000-0000-0000-000000000001",
+  "paymentMethod": "razorpay"
+}
+
+### My Orders
+GET {{baseUrl}}/orders?page=1&limit=10
+Authorization: Bearer {{accessToken}}
+
+### Order Detail
+GET {{baseUrl}}/orders/00000000-0000-0000-0000-000000000001
+Authorization: Bearer {{accessToken}}
+
+### Cancel Order
+POST {{baseUrl}}/orders/00000000-0000-0000-0000-000000000001/cancel
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "reason": "Changed my mind"
+}
+
+### Return Item
+POST {{baseUrl}}/orders/return-item
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "orderItemId": "00000000-0000-0000-0000-000000000001",
+  "reason": "Damaged product",
+  "images": ["https://example.com/evidence.jpg"]
+}
+
+
+# ═══════════════════════════════════════
+# PAYMENTS
+# ═══════════════════════════════════════
+
+### Verify Razorpay Payment
+POST {{baseUrl}}/payments/verify
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "razorpayOrderId": "order_xyz",
+  "razorpayPaymentId": "pay_xyz",
+  "razorpaySignature": "signature_xyz"
+}
+
+### Get Payment Detail
+GET {{baseUrl}}/payments/orders/00000000-0000-0000-0000-000000000001
+Authorization: Bearer {{accessToken}}
+
+### Wallet History
+GET {{baseUrl}}/payments/wallet/history?page=1&limit=10
+Authorization: Bearer {{accessToken}}
+
+
+# ═══════════════════════════════════════
+# NOTIFICATIONS
+# ═══════════════════════════════════════
+
+### Get Notifications
+GET {{baseUrl}}/notifications?page=1&limit=20
+Authorization: Bearer {{accessToken}}
+
+### Unread Count
+GET {{baseUrl}}/notifications/unread-count
+Authorization: Bearer {{accessToken}}
+
+### Mark as Read
+PATCH {{baseUrl}}/notifications/00000000-0000-0000-0000-000000000001/read
+Authorization: Bearer {{accessToken}}
+
+### Mark All as Read
+PATCH {{baseUrl}}/notifications/read-all
+Authorization: Bearer {{accessToken}}
+
+
+# ═══════════════════════════════════════
+# SELLERS
+# ═══════════════════════════════════════
+
+### Register as Seller
+POST {{baseUrl}}/sellers/register
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "brandName": "Green Herbs India",
+  "businessType": "individual",
+  "gstNumber": "22AAAAA0000A1Z5",
+  "panNumber": "ABCDE1234F",
+  "description": "Organic herbs from Uttarakhand"
+}
+
+### Get Seller Profile
+GET {{baseUrl}}/sellers/my/profile
+Authorization: Bearer {{accessToken}}
+
+### Seller Analytics
+GET {{baseUrl}}/sellers/my/analytics?period=month
+Authorization: Bearer {{accessToken}}
+
+
+# ═══════════════════════════════════════
+# ADMIN (requires admin role)
+# ═══════════════════════════════════════
+
+### Admin Dashboard
+GET {{baseUrl}}/admin/dashboard
+Authorization: Bearer {{accessToken}}
+
+### Pending Sellers
+GET {{baseUrl}}/admin/sellers/pending?page=1&limit=10
+Authorization: Bearer {{accessToken}}
+
+### Pending Products
+GET {{baseUrl}}/admin/products/pending?page=1&limit=10
+Authorization: Bearer {{accessToken}}
+
+### All Orders (admin)
+GET {{baseUrl}}/admin/orders?page=1&limit=10&status=confirmed
+Authorization: Bearer {{accessToken}}
+
+### All Users
+GET {{baseUrl}}/admin/users?page=1&limit=20&search=rahul
+Authorization: Bearer {{accessToken}}
+
+### Suspend User
+PATCH {{baseUrl}}/admin/users/00000000-0000-0000-0000-000000000001/suspend
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "reason": "Fraudulent activity detected"
+}
+
+### Revenue Summary
+GET {{baseUrl}}/admin/analytics/revenue?dateFrom=2025-01-01&dateTo=2025-12-31
+Authorization: Bearer {{accessToken}}
+
+### All Coupons
+GET {{baseUrl}}/admin/coupons?page=1&limit=20
+Authorization: Bearer {{accessToken}}
+
+### Create Coupon
+POST {{baseUrl}}/admin/coupons
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "code": "SUMMER25",
+  "discountType": "percentage",
+  "discountValue": 25,
+  "minOrderAmount": 500,
+  "maxDiscountAmount": 200,
+  "maxUses": 1000,
+  "validFrom": "2025-06-01T00:00:00Z",
+  "validUntil": "2025-08-31T23:59:59Z",
+  "isActive": true
+}
+
+
+# ═══════════════════════════════════════
+# HEALTH
+# ═══════════════════════════════════════
+
+### Health Check
+GET {{baseUrl}}/health
