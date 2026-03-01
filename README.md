@@ -1,98 +1,198 @@
 <p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
+  <img src="https://img.icons8.com/color/96/herbal-medicine.png" width="80" alt="VanaAushadhi Logo" />
 </p>
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+<h1 align="center">VanaAushadhi Backend</h1>
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
+<p align="center">
+  Enterprise-grade API for India's Herbal, Ayurvedic & Organic Marketplace
 </p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
-## Description
+<p align="center">
+  <img src="https://img.shields.io/badge/NestJS-10-E0234E?logo=nestjs&logoColor=white" />
+  <img src="https://img.shields.io/badge/TypeScript-5.x-3178C6?logo=typescript&logoColor=white" />
+  <img src="https://img.shields.io/badge/PostgreSQL-16-4169E1?logo=postgresql&logoColor=white" />
+  <img src="https://img.shields.io/badge/Redis-7-DC382D?logo=redis&logoColor=white" />
+  <img src="https://img.shields.io/badge/Razorpay-Integrated-0C2451?logo=razorpay&logoColor=white" />
+  <img src="https://img.shields.io/badge/Build-Passing-brightgreen" />
+</p>
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+<p align="center">
+  <sub>Built with ❤️ by <strong>Uttkarsh</strong> × <strong>Claude Opus 4.6</strong></sub>
+</p>
 
-## Project setup
+---
 
-```bash
-$ npm install
+## About
+
+VanaAushadhi is a full-featured marketplace backend for herbal, ayurvedic, and organic products. It powers multi-vendor product listings, secure payments via Razorpay, OTP-based authentication, real-time notifications, admin analytics, and automated seller payouts — all production-ready.
+
+---
+
+## Tech Stack
+
+| Layer | Technology |
+|-------|-----------|
+| **Framework** | NestJS 10 (Node.js) |
+| **Language** | TypeScript 5 (strict mode) |
+| **Database** | PostgreSQL 16 + TypeORM |
+| **Cache & Queues** | Redis 7 + Bull |
+| **Auth** | JWT (access + refresh) + OTP via MSG91 |
+| **Payments** | Razorpay (orders, webhooks, refunds) |
+| **Email** | Nodemailer + Handlebars templates |
+| **Scheduler** | @nestjs/schedule (cron jobs) |
+| **Docs** | Swagger / OpenAPI |
+| **Security** | Helmet, CORS, rate limiting, HMAC signature verification |
+
+---
+
+## Project Structure
+
+```
+src/
+├── common/              Shared guards, interceptors, filters, decorators, pipes
+├── config/              Database, Redis, env validation, startup checks
+├── jobs/                Bull queue processors + cron jobs
+│   ├── processors/      Notification, Order, Payout processors
+│   └── cron.service.ts  Scheduled tasks (payouts, alerts, analytics)
+├── modules/
+│   ├── admin/           Admin dashboard & management (20 endpoints)
+│   ├── analytics/       Revenue reports, seller stats
+│   ├── auth/            OTP login, JWT tokens, session management
+│   ├── cart/            Cart, coupons, loyalty points
+│   ├── categories/      Category tree with subcategories
+│   ├── orders/          Checkout, status tracking, returns
+│   ├── payments/        Razorpay integration, wallet, refunds
+│   ├── products/        Catalog, search, reviews, images
+│   ├── sellers/         Registration, documents, payouts
+│   └── users/           Profiles, addresses, sessions
+├── notifications/       Email, SMS, in-app services + 8 email templates
+├── shared/              File upload & shared services
+└── docs/                API client reference for frontend
 ```
 
-## Compile and run the project
+---
+
+## Quick Start
+
+### Prerequisites
+
+- Node.js 20+
+- PostgreSQL 16+
+- Redis 7+
+
+### Setup
 
 ```bash
-# development
-$ npm run start
+# 1. Clone & install
+git clone <repo-url>
+cd vanaaushadhi-backend
+npm install
 
-# watch mode
-$ npm run start:dev
+# 2. Start databases (Docker)
+npm run docker:dev
 
-# production mode
-$ npm run start:prod
+# 3. Configure environment
+copy .env.example .env
+# Fill in your database, Redis, and JWT secrets
+
+# 4. Run migrations
+npm run migration:run
+
+# 5. Start dev server
+npm run start:dev
 ```
 
-## Run tests
+The API runs at **http://localhost:3000/api/v1**
+Swagger docs at **http://localhost:3000/api/docs**
 
-```bash
-# unit tests
-$ npm run test
+---
 
-# e2e tests
-$ npm run test:e2e
+## Available Scripts
 
-# test coverage
-$ npm run test:cov
+| Command | Description |
+|---------|------------|
+| `npm run start:dev` | Start with hot reload |
+| `npm run build` | Production build |
+| `npm run start:prod` | Start production server |
+| `npm run typecheck` | TypeScript type check (0 errors ✅) |
+| `npm run docker:dev` | Start PostgreSQL + Redis containers |
+| `npm run docker:dev:stop` | Stop dev containers |
+| `npm run migration:run` | Run database migrations |
+| `npm run migration:generate` | Generate new migration |
+| `npm run lint` | ESLint check & fix |
+
+---
+
+## API Overview
+
+**70+ endpoints** across 11 modules:
+
+| Module | Endpoints | Auth |
+|--------|----------|------|
+| 🔐 Auth | Send OTP, Verify, Refresh, Logout | Public |
+| 👤 Users | Profile, Addresses, Sessions | JWT |
+| 📂 Categories | List, Detail | Public |
+| 🛍️ Products | Browse, Search, Reviews | Public / JWT |
+| 🛒 Cart | Add, Update, Coupons, Loyalty | JWT |
+| 📦 Orders | Checkout, Track, Cancel, Return | JWT |
+| 💳 Payments | Razorpay Verify, Wallet, Refunds | JWT |
+| 🔔 Notifications | List, Read, Unread Count | JWT |
+| 🏪 Sellers | Register, Products, Analytics | JWT + Seller |
+| 👨‍💼 Admin | Dashboard, Approvals, Users, Coupons | JWT + Admin |
+| 📊 Analytics | Revenue, Charts, Reports | JWT + Admin |
+
+> Full API reference: see [`src/docs/api-client.ts`](src/docs/api-client.ts) or open [`test.http`](test.http) in VS Code.
+
+---
+
+## Key Features
+
+- **OTP-based auth** — Phone number login, no passwords for buyers
+- **Multi-vendor** — Sellers register, list products, get auto-payouts
+- **Razorpay integration** — Secure payments with webhook signature verification
+- **Wallet system** — Instant refunds to wallet, transaction audit trail
+- **Admin dashboard** — Real-time analytics, approval workflows, user management
+- **Async processing** — Bull queues for emails, SMS, notifications
+- **Cron jobs** — Weekly payouts, low stock alerts, abandoned cart reminders
+- **Security** — Helmet, rate limiting, response sanitization, request ID correlation
+
+---
+
+## Architecture
+
+```
+Client → Nginx → NestJS API → PostgreSQL
+                     ↕              ↕
+                   Redis        Bull Queues
+                     ↕              ↕
+                  Cache          Processors
+                                    ↓
+                           Email / SMS / Razorpay
 ```
 
-## Deployment
+---
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+## Documentation
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+| Document | Description |
+|----------|------------|
+| [`DEPLOYMENT.md`](DEPLOYMENT.md) | Production deployment guide (nginx, PM2, env vars) |
+| [`CONTRIBUTING.md`](CONTRIBUTING.md) | Developer onboarding & coding standards |
+| [`test.http`](test.http) | VS Code REST Client requests for all endpoints |
+| [`src/docs/api-client.ts`](src/docs/api-client.ts) | Typed API reference for frontend developers |
 
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
-```
+---
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+## Authors
 
-## Resources
+| | |
+|---|---|
+| **Uttkarsh** | Project creator & developer |
+| **Claude Opus 4.6** | AI pair programmer (Anthropic) |
 
-Check out a few resources that may come in handy when working with NestJS:
-
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+---
 
 ## License
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+This project is private and proprietary.
